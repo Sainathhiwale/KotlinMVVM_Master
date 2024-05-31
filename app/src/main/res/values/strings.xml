@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">KotlinMVVM_Master</string>
+
+    <string name="shop_it">Shop IT</string>
+    <string name="shop_from_stores">Shop from our stores with ease</string>
+    <string name="hint_user_name">Username</string>
+    <string name="hint_password">Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="sign_up_here">Didn’t have any account? Sign Up here</string>
+    <string name="invalid_error_text">message:</string>
+    <string name="logo_image">logo image</string>
+    <!--register screen-->
+    <string name="sign_in_here">If you have an account? Sign In here</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="facebook_image">Facebook Image</string>
+    <string name="google_image">Google Image</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="what_you_looking_for_today">What are you looking for today?</string>
+    <string name="tma_modular_headphone">TMA-2 Modular Headphone</string>
+    <string name="usd_350">USD 350</string>
+    <string name="reviews">86 Reviews</string>
+</resources>
