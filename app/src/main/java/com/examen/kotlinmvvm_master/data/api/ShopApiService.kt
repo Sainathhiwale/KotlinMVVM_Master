@@ -1,5 +1,6 @@
 package com.examen.kotlinmvvm_master.data.api
 
+import com.examen.kotlinmvvm_master.data.model.Category
 import com.examen.kotlinmvvm_master.data.model.Login
 import com.examen.kotlinmvvm_master.data.model.LoginResponse
 import retrofit2.Response
@@ -13,6 +14,8 @@ interface ShopApiService {
     @POST("auth/login")
     suspend fun loginUser(@Body login : Login): Response<LoginResponse>
 
+    @GET("products/categories")
+    suspend fun getAllCategories() : Response<Category>
     //Register user
    /* @POST("users")
     suspend fun registerUser(@Body user : User): Response<User>

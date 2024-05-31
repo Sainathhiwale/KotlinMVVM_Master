@@ -1,7 +1,10 @@
 package com.examen.kotlinmvvm_master.presentation.di
 
+import android.app.Application
 import com.examen.kotlinmvvm_master.data.utils.SharedPreference
 import com.examen.kotlinmvvm_master.domain.usecase.AuthUseCase
+import com.examen.kotlinmvvm_master.domain.usecase.ProductUseCase
+import com.examen.kotlinmvvm_master.presentation.viewmodel.HomeViewModel
 import com.examen.kotlinmvvm_master.presentation.viewmodel.LoginViewModel
 import dagger.Module
 import dagger.Provides
@@ -17,5 +20,11 @@ class ViewModelModule {
     @Provides
     fun providesLoginViewModel(authUseCase: AuthUseCase, sharedPreference: SharedPreference) : LoginViewModel {
         return LoginViewModel(authUseCase,sharedPreference)
+    }
+
+    @Singleton
+    @Provides
+    fun provideHomeViewModel(app : Application, productUseCase: ProductUseCase):HomeViewModel{
+        return HomeViewModel(app,productUseCase)
     }
 }
