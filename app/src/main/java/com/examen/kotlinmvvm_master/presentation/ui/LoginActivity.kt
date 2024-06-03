@@ -87,8 +87,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                     Log.d(TAG, "loginUser: " )
                     loginBinding.loginProgress.visibility = View.INVISIBLE
                     loginBinding.loginButton.isEnabled = true
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
+                    navigatedMain()
+
                 }else if(successful == false){
                     loginBinding.loginProgress.visibility = View.INVISIBLE
                     loginBinding.loginButton.isEnabled = true
@@ -100,5 +100,10 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         else{
             Snackbar.make(loginBinding.loginButton,"${result.error}",Snackbar.LENGTH_SHORT).show()
         }
+    }
+
+    private fun navigatedMain() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 }

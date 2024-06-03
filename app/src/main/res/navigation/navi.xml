@@ -11,4 +11,6 @@
         android:name="com.examen.kotlinmvvm_master.presentation.ui.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+
+
 </navigation>

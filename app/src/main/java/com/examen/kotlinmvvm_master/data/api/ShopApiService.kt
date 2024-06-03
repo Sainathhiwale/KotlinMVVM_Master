@@ -1,12 +1,11 @@
 package com.examen.kotlinmvvm_master.data.api
 
-import com.examen.kotlinmvvm_master.data.model.Category
+import com.examen.kotlinmvvm_master.data.model.category.Category
 import com.examen.kotlinmvvm_master.data.model.Login
 import com.examen.kotlinmvvm_master.data.model.LoginResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.Headers
 import retrofit2.http.POST
 
 interface ShopApiService {

@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.examen.kotlinmvvm_master.data.model.Category
+import com.examen.kotlinmvvm_master.data.model.category.Category
 import com.examen.kotlinmvvm_master.data.utils.Network.isNetworkAvailable
 import com.examen.kotlinmvvm_master.data.utils.Resource
 import com.examen.kotlinmvvm_master.domain.usecase.ProductUseCase

@@ -7,16 +7,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.examen.kotlinmvvm_master.R
+import com.examen.kotlinmvvm_master.data.model.category.Category2
+import com.examen.kotlinmvvm_master.data.utils.Resource
 import com.examen.kotlinmvvm_master.databinding.FragmentHomeBinding
 import com.examen.kotlinmvvm_master.presentation.viewmodel.HomeViewModel
+import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
     private val TAG= HomeFragment::class.java.simpleName
+    // use for check and unchecked
+    private var category2 = mutableListOf<Category2>()
+
     @Inject
-    private lateinit var homeViewModel: HomeViewModel
+     lateinit var homeViewModel: HomeViewModel
     private lateinit var fragmentHomeBinding: FragmentHomeBinding
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,8 +41,26 @@ class HomeFragment : Fragment() {
 
     private fun initAllCategory() {
         homeViewModel.getAllCategories()
-        homeViewModel.categories.observe(viewLifecycleOwner) {
-            Log.d(TAG, "initAllCategory: " + it.data)
+        homeViewModel.categories.observe(viewLifecycleOwner) { response->
+            Log.d(TAG, "initAllCategory: "+ response.data)
+            if (response.data!=null ){
+              val categories = response.data
+                val chip = Chip(requireContext())
+                chip.text = "all"
+                chip.id =0
+                chip.isChecked = true
+                category2.clear()
+                fragmentHomeBinding.chipGroup.removeAllViews()
+                category2.add(Category2(0,"All"))
+                fragmentHomeBinding.chipGroup.addView(chip)
+                categories?.forEachIndexed { index, category->
+                   val chip =Chip(requireContext())
+                    chip.text =category
+                    chip.id = index+1
+                    category2.add(Category2(index,category))
+                    fragmentHomeBinding.chipGroup.addView(chip)
+                }
+            }
         }
     }
 
