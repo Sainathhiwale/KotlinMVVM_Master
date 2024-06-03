@@ -3,6 +3,7 @@ package com.examen.kotlinmvvm_master.data.repository
 import com.examen.kotlinmvvm_master.data.model.category.Category
 import com.examen.kotlinmvvm_master.data.model.Login
 import com.examen.kotlinmvvm_master.data.model.LoginResponse
+import com.examen.kotlinmvvm_master.data.model.allproductshop.Shop
 import com.examen.kotlinmvvm_master.data.repository.datasource.ShopRemoteDataSource
 import com.examen.kotlinmvvm_master.data.utils.Resource
 import com.examen.kotlinmvvm_master.domain.repository.ShopRepository
@@ -19,6 +20,11 @@ class ShopRepositoryImpl @Inject constructor(private val remoteDataSource: ShopR
         return responseAllCategory(remoteDataSource.getAllCategory())
     }
 
+    override suspend fun getAllProducts(): Resource<Shop> {
+        return responseToShopResult(remoteDataSource.getAllProduct())
+    }
+
+
     // get all category
     private fun responseAllCategory(responseAllCategory: Response<Category>): Resource<Category> {
         if (responseAllCategory.isSuccessful){
@@ -27,6 +33,16 @@ class ShopRepositoryImpl @Inject constructor(private val remoteDataSource: ShopR
             }
         }
         return Resource.Error(message = "${responseAllCategory.errorBody()?.string()}")
+    }
+
+    // get all product
+    private fun responseToShopResult(response: Response<Shop>): Resource<Shop> {
+       if (response.isSuccessful){
+           response.body()?.let {
+               return Resource.Success(it)
+           }
+       }
+        return Resource.Error(message = "${response.errorBody()?.string()}")
     }
 
     //login result

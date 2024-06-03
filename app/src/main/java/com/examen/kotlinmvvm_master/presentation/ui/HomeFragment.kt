@@ -10,6 +10,7 @@ import com.examen.kotlinmvvm_master.R
 import com.examen.kotlinmvvm_master.data.model.category.Category2
 import com.examen.kotlinmvvm_master.data.utils.Resource
 import com.examen.kotlinmvvm_master.databinding.FragmentHomeBinding
+import com.examen.kotlinmvvm_master.presentation.ui.adapter.HomeShopAdapter
 import com.examen.kotlinmvvm_master.presentation.viewmodel.HomeViewModel
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,6 +24,9 @@ class HomeFragment : Fragment() {
 
     @Inject
      lateinit var homeViewModel: HomeViewModel
+     @Inject
+     lateinit var homeShopAdapter: HomeShopAdapter
+
     private lateinit var fragmentHomeBinding: FragmentHomeBinding
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,6 +41,29 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         fragmentHomeBinding = FragmentHomeBinding.bind(view)
         initAllCategory()
+        initProduct()
+    }
+
+    private fun initProduct() {
+        homeViewModel.getAllProducts()
+        homeViewModel.products.observe(viewLifecycleOwner){ shop->
+            when(shop){
+             is Resource.Success ->{
+                 homeShopAdapter.differ.submitList(shop.data)
+                  fragmentHomeBinding.homeRecyclerView.visibility = View.VISIBLE
+                  fragmentHomeBinding.homeRecyclerView.adapter =homeShopAdapter
+                 Log.d("HomeFragment", "${shop.data}")
+                }
+                is Resource.Loading -> {
+                    //binding.homeRecyclerView.visibility = View.INVISIBLE
+                    Log.i("HomeFragment", "Loading...")
+                }
+
+                is Resource.Error -> {
+                    Log.i("HomeFragment", "${shop.message}")
+                }
+            }
+        }
     }
 
     private fun initAllCategory() {
@@ -60,8 +87,12 @@ class HomeFragment : Fragment() {
                     category2.add(Category2(index,category))
                     fragmentHomeBinding.chipGroup.addView(chip)
                 }
+            }else{
+                Log.d(TAG, "initAllCategory:error found " )
             }
+
         }
+
     }
 
 
