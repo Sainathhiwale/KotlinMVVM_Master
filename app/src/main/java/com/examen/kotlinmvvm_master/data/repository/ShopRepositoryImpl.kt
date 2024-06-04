@@ -15,14 +15,20 @@ class ShopRepositoryImpl @Inject constructor(private val remoteDataSource: ShopR
     override suspend fun loginUser(login: Login): Resource<LoginResponse> {
         return  responseLoginResult(remoteDataSource.loginUser(login))
     }
-
+    //home fragment
     override suspend fun getAllCategories(): Resource<Category> {
         return responseAllCategory(remoteDataSource.getAllCategory())
     }
-
+    //home fragment
     override suspend fun getAllProducts(): Resource<Shop> {
         return responseToShopResult(remoteDataSource.getAllProduct())
     }
+    //home fragment
+    override suspend fun getCategoryProducts(category: String): Resource<Shop> {
+        return responseToShopResult(remoteDataSource.getCategoryProducts(category))
+    }
+
+
 
 
     // get all category
@@ -35,7 +41,7 @@ class ShopRepositoryImpl @Inject constructor(private val remoteDataSource: ShopR
         return Resource.Error(message = "${responseAllCategory.errorBody()?.string()}")
     }
 
-    // get all product
+    // get all product     // get all product category based on product selection
     private fun responseToShopResult(response: Response<Shop>): Resource<Shop> {
        if (response.isSuccessful){
            response.body()?.let {
@@ -44,6 +50,7 @@ class ShopRepositoryImpl @Inject constructor(private val remoteDataSource: ShopR
        }
         return Resource.Error(message = "${response.errorBody()?.string()}")
     }
+
 
     //login result
     private fun responseLoginResult(response: Response<LoginResponse>): Resource<LoginResponse> {

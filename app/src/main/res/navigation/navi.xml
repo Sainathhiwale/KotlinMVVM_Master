@@ -10,7 +10,20 @@
         android:id="@+id/homeFragment"
         android:name="com.examen.kotlinmvvm_master.presentation.ui.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_productDetailFragment"
+            app:destination="@id/productDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productDetailFragment"
+        android:name="com.examen.kotlinmvvm_master.presentation.ui.ProductDetailFragment"
+        android:label="fragment_product_detail"
+        tools:layout="@layout/fragment_product_detail" >
+        <argument
+            android:name="shopItem"
+            app:argType="com.examen.kotlinmvvm_master.data.model.allproductshop.ShopItem"/>
+    </fragment>
 
 
 </navigation>

@@ -22,4 +22,8 @@ class ShopRemoteDataSourceImpl @Inject constructor(private val apiService: ShopA
     override suspend fun getAllProduct(): Response<Shop> {
         return apiService.getAllProducts()
     }
+
+    override suspend fun getCategoryProducts(category: String): Response<Shop> {
+        return apiService.getCategoryProducts(category)
+    }
 }

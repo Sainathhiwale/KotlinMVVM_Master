@@ -28,7 +28,7 @@ class HomeViewModel @Inject constructor(
             if (isNetworkAvailable(app)) {
                 val apiResult = productUseCase.getAllCategories()
                 categories.postValue(apiResult)
-            }else{
+            } else {
                 categories.postValue(Resource.Error(message = "Internet not available"))
             }
         } catch (e: Exception) {
@@ -36,19 +36,37 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getAllProducts() = viewModelScope.launch(IO){
-     products.postValue(Resource.Loading())
+    fun getAllProducts() = viewModelScope.launch(IO) {
+        products.postValue(Resource.Loading())
         try {
-            if (isNetworkAvailable(app)){
+            if (isNetworkAvailable(app)) {
                 val apiResult = productUseCase.getAllProducts()
                 products.postValue(apiResult)
-            }else{
+            } else {
                 products.postValue(Resource.Error(message = "Internet Not availble"))
             }
-        }catch (e:Exception){
+        } catch (e: Exception) {
             products.postValue(Resource.Error(message = "${e.localizedMessage}?: Unknown Error"))
         }
 
+    }
+
+    fun getProductCategories(category: String) = viewModelScope.launch(IO) {
+        if (category != null) {
+            products.postValue(Resource.Loading())
+            try {
+                if (isNetworkAvailable(app)) {
+                    val apiResult = productUseCase.getCategoryProducts(category)
+                    products.postValue(apiResult)
+                } else {
+                    products.postValue(Resource.Error(message = "Internet not available"))
+                }
+            } catch (e: Exception) {
+                products.postValue(Resource.Error(message = e.localizedMessage ?: "Unknown Error"))
+            }
+        } else {
+            getAllProducts()
+        }
     }
 
 }

@@ -15,5 +15,8 @@ class ProductUseCase @Inject constructor(private val shopRepository: ShopReposit
     suspend fun getAllProducts():Resource<Shop>{
      return shopRepository.getAllProducts()
     }
+    suspend fun getCategoryProducts(category:String):Resource<Shop>{
+        return shopRepository.getCategoryProducts(category)
+    }
 
 }

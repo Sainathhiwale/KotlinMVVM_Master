@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.examen.kotlinmvvm_master.R
 import com.examen.kotlinmvvm_master.data.model.category.Category2
 import com.examen.kotlinmvvm_master.data.utils.Resource
@@ -41,7 +42,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         fragmentHomeBinding = FragmentHomeBinding.bind(view)
         initAllCategory()
-        initProduct()
+
     }
 
     private fun initProduct() {
@@ -52,6 +53,7 @@ class HomeFragment : Fragment() {
                  homeShopAdapter.differ.submitList(shop.data)
                   fragmentHomeBinding.homeRecyclerView.visibility = View.VISIBLE
                   fragmentHomeBinding.homeRecyclerView.adapter =homeShopAdapter
+
                  Log.d("HomeFragment", "${shop.data}")
                 }
                 is Resource.Loading -> {
@@ -63,6 +65,29 @@ class HomeFragment : Fragment() {
                     Log.i("HomeFragment", "${shop.message}")
                 }
             }
+        }
+
+        initAdapter()
+
+    }
+
+    private fun initAdapter() {
+        homeShopAdapter.setOnItemClickListener {
+            val navigate = HomeFragmentDirections.actionHomeFragmentToProductDetailFragment(it)
+            findNavController().navigate(navigate)
+        }
+     //   fragmentHomeBinding.homeRecyclerView.adapter =homeShopAdapter
+
+
+        fragmentHomeBinding.chipGroup.setOnCheckedStateChangeListener { group, checkedIds ->
+            group.isSingleSelection = true
+            val chipid = group.checkedChipId
+            val category = category2[chipid].category
+            val categoryList = homeViewModel.products.value?.data?.filter {
+                it.category == category
+            }
+            homeViewModel.getProductCategories(category)
+//            adapter.differ.submitList(categoryList)
         }
     }
 
@@ -92,6 +117,7 @@ class HomeFragment : Fragment() {
             }
 
         }
+        initProduct()
 
     }
 

@@ -8,6 +8,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface ShopApiService {
     //Login user
@@ -20,6 +21,9 @@ interface ShopApiService {
     // homefragment get all product
     @GET("/products")
     suspend fun getAllProducts (): Response<Shop>
+    // home fragment get all product category which is selected on home page
+    @GET("/products/category/{category}")
+    suspend fun getCategoryProducts(@Path(value = "category") category:String):Response<Shop>
     //Register user
    /* @POST("users")
     suspend fun registerUser(@Body user : User): Response<User>
