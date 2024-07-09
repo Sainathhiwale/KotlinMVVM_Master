@@ -1,0 +1,67 @@
+// Domain Layer
+// User.kt (Entity)
+data class User(val username: String, val password: String)
+
+// UserRepository.kt (Repository Interface)
+interface UserRepository {
+    fun getUserByUsernameAndPassword(username: String, password: String): User?
+}
+
+// Data Layer
+// UserLocalDataSource.kt (Local Data Source)
+class UserLocalDataSource(private val userDao: UserDao) : UserRepository {
+    override fun getUserByUsernameAndPassword(username: String, password: String): User? {
+        // retrieve user from local database
+        return userDao.getUserByUsernameAndPassword(username, password)
+    }
+}
+
+// UserDao.kt (DAO)
+interface UserDao {
+    fun getUserByUsernameAndPassword(username: String, password: String): User?
+}
+
+// Application Layer
+// LoginUseCase.kt (Use Case)
+class LoginUseCase(private val userRepository: UserRepository) {
+    fun execute(username: String, password: String): User? {
+        return userRepository.getUserByUsernameAndPassword(username, password)
+    }
+}
+
+// Presentation Layer
+// LoginViewModel.kt (ViewModel)
+class LoginViewModel(private val loginUseCase: LoginUseCase) : ViewModel() {
+    private val _loginResult = MutableLiveData<User?>()
+    val loginResult: LiveData<User?> = _loginResult
+
+    fun login(username: String, password: String) {
+        _loginResult.value = loginUseCase.execute(username, password)
+    }
+}
+
+// LoginActivity.kt (Activity)
+class LoginActivity : AppCompatActivity() {
+    private lateinit var viewModel: LoginViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_login)
+
+        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+
+        login_button.setOnClickListener {
+            val username = username_edittext.text.toString()
+            val password = password_edittext.text.toString()
+            viewModel.login(username, password)
+        }
+
+        viewModel.loginResult.observe(this, Observer { user ->
+            if (user!= null) {
+                // navigate to home activity
+            } else {
+                // show error message
+            }
+        })
+    }
+}
